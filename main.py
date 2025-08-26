@@ -24,11 +24,13 @@ async def get_derivative_losers():
         try:
             change = token.get("price_change_percentage_15m_in_currency")
             volume = token.get("total_volume", 0)
+
+            # Relaxed test conditions
             if (
                 change is not None and
-                change < -7 and
+                change < -1 and
                 volume is not None and
-                volume > 20000000
+                volume > 1000000
             ):
                 filtered.append({
                     "name": token["name"],
@@ -50,7 +52,7 @@ async def index():
 <html>
 <head><title>Top Derivative Losers</title></head>
 <body>
-  <h1>🔻 Top 10 Derivatives Tokens (Drop ≥ 7% in 15 min, Vol > $20M)</h1>
+  <h1>🔻 Top 10 Derivatives Tokens (Drop ≥ 1% in 15 min, Vol > $1M)</h1>
   <ul id="list"></ul>
   <script>
     async function fetchData(){
